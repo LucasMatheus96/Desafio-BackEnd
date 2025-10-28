@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\Mottu.RentalApp.API.props" />
-</Project>
