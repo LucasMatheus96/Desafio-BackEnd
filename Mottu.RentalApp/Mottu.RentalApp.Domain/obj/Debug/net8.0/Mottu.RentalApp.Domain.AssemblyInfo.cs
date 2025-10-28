@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Mottu.RentalApp.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1050c5515fd7f0b5b7361730ae930058da47a28c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7a918f76f0717a11e741ff0936bd76fa6b1b6e35")]
 [assembly: System.Reflection.AssemblyProductAttribute("Mottu.RentalApp.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Mottu.RentalApp.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
