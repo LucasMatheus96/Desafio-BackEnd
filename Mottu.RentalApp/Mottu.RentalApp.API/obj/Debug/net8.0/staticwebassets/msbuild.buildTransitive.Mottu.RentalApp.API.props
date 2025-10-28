@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Mottu.RentalApp.API.props" />
+</Project>

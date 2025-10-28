@@ -1,0 +1,12 @@
+C:\Users\lucas_silva\OneDrive - CONSULTICART\Área de Trabalho\Projetos\Desafio-BackEnd\Mottu.RentalApp\Mottu.RentalApp.Domain\bin\Debug\net8.0\Mottu.RentalApp.Domain.deps.json
+C:\Users\lucas_silva\OneDrive - CONSULTICART\Área de Trabalho\Projetos\Desafio-BackEnd\Mottu.RentalApp\Mottu.RentalApp.Domain\bin\Debug\net8.0\Mottu.RentalApp.Domain.dll
+C:\Users\lucas_silva\OneDrive - CONSULTICART\Área de Trabalho\Projetos\Desafio-BackEnd\Mottu.RentalApp\Mottu.RentalApp.Domain\bin\Debug\net8.0\Mottu.RentalApp.Domain.pdb
+C:\Users\lucas_silva\OneDrive - CONSULTICART\Área de Trabalho\Projetos\Desafio-BackEnd\Mottu.RentalApp\Mottu.RentalApp.Domain\obj\Debug\net8.0\Mottu.RentalApp.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lucas_silva\OneDrive - CONSULTICART\Área de Trabalho\Projetos\Desafio-BackEnd\Mottu.RentalApp\Mottu.RentalApp.Domain\obj\Debug\net8.0\Mottu.RentalApp.Domain.AssemblyInfoInputs.cache
+C:\Users\lucas_silva\OneDrive - CONSULTICART\Área de Trabalho\Projetos\Desafio-BackEnd\Mottu.RentalApp\Mottu.RentalApp.Domain\obj\Debug\net8.0\Mottu.RentalApp.Domain.AssemblyInfo.cs
+C:\Users\lucas_silva\OneDrive - CONSULTICART\Área de Trabalho\Projetos\Desafio-BackEnd\Mottu.RentalApp\Mottu.RentalApp.Domain\obj\Debug\net8.0\Mottu.RentalApp.Domain.csproj.CoreCompileInputs.cache
+C:\Users\lucas_silva\OneDrive - CONSULTICART\Área de Trabalho\Projetos\Desafio-BackEnd\Mottu.RentalApp\Mottu.RentalApp.Domain\obj\Debug\net8.0\Mottu.RentalApp.Domain.sourcelink.json
+C:\Users\lucas_silva\OneDrive - CONSULTICART\Área de Trabalho\Projetos\Desafio-BackEnd\Mottu.RentalApp\Mottu.RentalApp.Domain\obj\Debug\net8.0\Mottu.RentalApp.Domain.dll
+C:\Users\lucas_silva\OneDrive - CONSULTICART\Área de Trabalho\Projetos\Desafio-BackEnd\Mottu.RentalApp\Mottu.RentalApp.Domain\obj\Debug\net8.0\refint\Mottu.RentalApp.Domain.dll
+C:\Users\lucas_silva\OneDrive - CONSULTICART\Área de Trabalho\Projetos\Desafio-BackEnd\Mottu.RentalApp\Mottu.RentalApp.Domain\obj\Debug\net8.0\Mottu.RentalApp.Domain.pdb
+C:\Users\lucas_silva\OneDrive - CONSULTICART\Área de Trabalho\Projetos\Desafio-BackEnd\Mottu.RentalApp\Mottu.RentalApp.Domain\obj\Debug\net8.0\ref\Mottu.RentalApp.Domain.dll
