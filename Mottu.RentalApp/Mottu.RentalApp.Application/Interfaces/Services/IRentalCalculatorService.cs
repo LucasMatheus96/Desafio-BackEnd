@@ -4,10 +4,6 @@ using Mottu.RentalApp.Domain.Enums;
 
 namespace Mottu.RentalApp.Application.Interfaces.Services
 {
-    public interface IRentalCalculatorService
-    {
-        
-
         public interface IRentalCalculatorService
         {
             RentalCalculationResult CalculateFinalCharge(
@@ -18,6 +14,5 @@ namespace Mottu.RentalApp.Application.Interfaces.Services
                 decimal dailyRate);
 
             decimal GetDailyRate(PlanType plan);
-        }
-    }
+        }    
 }
