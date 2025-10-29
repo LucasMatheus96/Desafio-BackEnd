@@ -16,6 +16,7 @@ namespace Mottu.RentalApp.Application.Mappings
         {
             CreateMap<Motorcycle, MotorcycleResponse>();
             CreateMap<CreateMotorcycleRequest, Motorcycle>();
+            
         }
     }
 }
