@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Mottu.RentalApp.Application.Interfaces.Services
 {
-    public interface IMessagePublisher
+    public interface IEventPublisher
     {
-        Task PublishMotorcycleRegisteredAsync(object eventPayload);
+        Task PublishAsync<T>(T @event, string queueName);
     }
 }

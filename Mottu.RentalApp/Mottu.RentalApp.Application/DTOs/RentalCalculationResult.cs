@@ -8,12 +8,12 @@ namespace Mottu.RentalApp.Application.DTOs
 {   
     public class RentalCalculationResult
     {
-        public decimal Total { get; init; }
-        public int UsedDays { get; init; }
-        public int RemainingDays { get; init; }
-        public decimal Penalty { get; init; }
-        public int ExtraDays { get; init; }
-        public decimal ExtraCharge { get; init; }
+        public decimal Total { get; set; }
+        public int UsedDays { get; set; }
+        public int RemainingDays { get; set; }
+        public decimal Penalty { get; set; }
+        public int ExtraDays { get; set; }
+        public decimal ExtraCharge { get; set; }
     }
 
 }

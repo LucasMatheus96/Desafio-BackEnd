@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -16,6 +16,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Mottu.RentalApp.Application\Mottu.RentalApp.Application.csproj" />
     <ProjectReference Include="..\Mottu.RentalApp.Infrastructure\Mottu.RentalApp.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>
