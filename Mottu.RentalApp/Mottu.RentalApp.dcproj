@@ -1,0 +1,18 @@
+<Project ToolsVersion="15.0" Sdk="Microsoft.Docker.Sdk">
+  <PropertyGroup Label="Globals">
+    <DockerTargetOS>Linux</DockerTargetOS>
+    <ProjectVersion>2.1</ProjectVersion>
+    <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
+    <DockerServiceName>api</DockerServiceName>
+    <ProjectGuid>16a37414-dcd8-4e36-a6c5-e12a0a2324df</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="docker-compose.yml" />
+    <None Include="docker-compose.override.yml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="api">
+      <ProjectPath>.\src\Mottu.RentalApp.API\Mottu.RentalApp.API.csproj</ProjectPath>
+    </Service>
+  </ItemGroup>
+</Project>
