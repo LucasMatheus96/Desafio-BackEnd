@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   postgres:
     image: postgres:17
@@ -22,8 +24,8 @@ services:
     container_name: mottu_rabbitmq
     restart: always
     ports:
-      - "5672:5672"      # Porta de comunicação
-      - "15672:15672"    # Painel de administração
+      - "5672:5672"
+      - "15672:15672"
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
@@ -33,18 +35,52 @@ services:
       timeout: 5s
       retries: 5
 
-  mottu-api:
+  minio:
+    image: minio/minio
+    container_name: mottu_minio
+    restart: always
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio123
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - ./minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
     build:
       context: .
       dockerfile: src/Mottu.RentalApp.API/Dockerfile
     container_name: mottu_api
-    ports:
-      - "8080:8080"
     depends_on:
       postgres:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+      minio:
+        condition: service_healthy
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=MottuRentalDB;Username=postgres;Password=postgres
+      - RabbitMq__Host=rabbitmq
+      - RabbitMq__Username=guest
+      - RabbitMq__Password=guest
+      - MinioSettings__Endpoint=minio:9000
+      - MinioSettings__AccessKey=minio
+      - MinioSettings__SecretKey=minio123
+      - MinioSettings__BucketName=rental-files
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./src/Mottu.RentalApp.API:/app
+
+networks:
+  default:
+    name: mottu-network

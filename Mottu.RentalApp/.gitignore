@@ -175,3 +175,6 @@ temp/
 
 # Ignore sensitive data
 secrets.json
+
+minio_data/
+postgres_data/
