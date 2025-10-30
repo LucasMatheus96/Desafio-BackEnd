@@ -7,6 +7,7 @@ namespace Mottu.RentalApp.API.Controllers
 {
     [ApiController]
     [Route("api/motorcycles")]
+    [ApiExplorerSettings(GroupName = "motos")]
     public class MotorcyclesController : ControllerBase
     {
         private readonly IMotorcycleService _motorcycleService;
@@ -19,8 +20,19 @@ namespace Mottu.RentalApp.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateMotorcycleRequest request)
         {
-            var result = await _motorcycleService.CreateAsync(request);
-            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+            try
+            {
+                var result = await _motorcycleService.CreateAsync(request);
+                return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(400, new ErrorResponse
+                {
+                    ErrorMessage = "Dados inválidos",                   
+                });
+            }
+           
         }
 
         [HttpGet]
@@ -32,8 +44,7 @@ namespace Mottu.RentalApp.API.Controllers
 
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
-        {
-            // optional: implement GetById in service
+        {            
             var all = await _motorcycleService.GetAllAsync(null);
             var found = System.Linq.Enumerable.FirstOrDefault(all, m => m.Id == id);
             if (found == null) return NotFound();

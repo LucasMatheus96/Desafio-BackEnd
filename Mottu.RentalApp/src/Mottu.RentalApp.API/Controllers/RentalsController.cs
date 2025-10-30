@@ -8,6 +8,7 @@ namespace Mottu.RentalApp.API.Controllers
 {
     [ApiController]
     [Route("api/rentals")]
+    [ApiExplorerSettings(GroupName = "locação")]
     public class RentalsController : ControllerBase
     {
         private readonly IRentalService _rentalService;

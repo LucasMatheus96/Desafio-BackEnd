@@ -42,14 +42,7 @@ namespace Mottu.RentalApp.Application.Services
 
           
             var @event = new MotorcycleRegisteredDomainEvent(motorcycle.Id, motorcycle.Year, motorcycle.Model, LicensePlate.Create(motorcycle.Plate));
-            await _eventPublisher.PublishAsync(new
-            {
-                Id = @event.MotorcycleId,
-                Year = @event.Year,
-                Model = @event.Model,
-                Plate = @event.Plate,
-                OccurredAtUtc = @event.OccurredOn
-            }, "motorcycle-registered");
+            await _eventPublisher.PublishAsync(@event, "motorcycle-registered");
 
             return _mapper.Map<MotorcycleResponse>(motorcycle);            
         }

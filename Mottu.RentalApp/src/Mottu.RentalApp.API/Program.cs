@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+ï»¿using Microsoft.EntityFrameworkCore;
 using Mottu.RentalApp.Infrastructure.Persistence.Context;
 using Mottu.RentalApp.Application.Interfaces.Repositories;
 using Mottu.RentalApp.Application.Interfaces.Services;
@@ -12,12 +12,14 @@ using Mottu.RentalApp.CrossCutting.Settings;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using Mottu.RentalApp.Infrastructure.Persistence;
+using Mottu.RentalApp.API.Configurations; 
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 builder.Services.AddDbContext<RentalDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 
 
 builder.Services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
@@ -31,6 +33,7 @@ builder.Services.AddScoped<IRentalService, RentalService>();
 builder.Services.AddScoped<IEventPublisher, RabbitMqEventPublisher>();
 builder.Services.AddScoped<IFileStorageService, MinioFileStorageService>();
 builder.Services.AddScoped<IRentalCalculatorService, RentalCalculatorService>();
+
 
 builder.Services.AddMassTransit(x =>
 {
@@ -48,47 +51,41 @@ builder.Services.AddMassTransit(x =>
         cfg.ConfigureEndpoints(context);
     });
 });
-// registra o publisher de eventos
-builder.Services.AddScoped<IEventPublisher, RabbitMqEventPublisher>();
+
+
+builder.Services.Configure<MinioSettings>(builder.Configuration.GetSection("MinioSettings"));
+builder.Services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<MinioSettings>>().Value);
+builder.Services.AddScoped<IFileStorageService, MinioFileStorageService>();
+
+
 builder.Services.AddAutoMapper(config =>
 {
-    // Aqui você registra manualmente os profiles se quiser
     config.AddMaps(AppDomain.CurrentDomain.GetAssemblies());
 });
 
-builder.Services.Configure<MinioSettings>(
-    builder.Configuration.GetSection("MinioSettings")
-);
+builder.Services.AddControllers()
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Program>());
 
-builder.Services.AddSingleton(resolver =>
-    resolver.GetRequiredService<Microsoft.Extensions.Options.IOptions<MinioSettings>>().Value
-);
-
-builder.Services.AddScoped<IFileStorageService, MinioFileStorageService>();
-
-builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Program>());
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-// Add services to the container. 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+builder.Services.AddSwaggerDocumentation();
 
 builder.Services.AddPersistenceInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerDocumentation(); 
 }
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-app.Run();
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<RentalDbContext>();
+    db.Database.Migrate();
+}
+
+app.Run();

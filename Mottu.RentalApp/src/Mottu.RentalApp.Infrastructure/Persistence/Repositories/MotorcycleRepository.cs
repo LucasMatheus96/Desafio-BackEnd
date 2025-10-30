@@ -21,6 +21,7 @@ namespace Mottu.RentalApp.Infrastructure.Persistence.Repositories
         public async Task AddAsync(Motorcycle motorcycle)
         {
             await _db.Motorcycles.AddAsync(motorcycle);
+            await _db.SaveChangesAsync();
         }
 
         public async Task<Motorcycle?> GetByIdAsync(Guid id)

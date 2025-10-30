@@ -9,6 +9,7 @@ namespace Mottu.RentalApp.API.Controllers
 {
     [ApiController]
     [Route("api/riders")]
+    [ApiExplorerSettings(GroupName = "entregadores")]
     public class RidersController : ControllerBase
     {
         private readonly IRiderService _riderService;
