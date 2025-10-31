@@ -11,7 +11,7 @@ namespace Mottu.RentalApp.Application.Interfaces.Repositories
     {
         Task AddAsync(Rental rental);
         Task<Rental?> GetByIdAsync(Guid id);
-        Task<bool> MotorcycleHasActiveRentalAsync(Guid motorcycleId);
+        Task<bool> MotorcycleHasActiveRentalAsync(string motorcycleId);
         Task UpdateAsync(Rental rental);
     }
 }

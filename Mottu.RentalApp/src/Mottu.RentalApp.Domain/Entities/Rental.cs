@@ -10,20 +10,22 @@ namespace Mottu.RentalApp.Domain.Entities
     public class Rental
     {
         public Guid Id { get; private set; }
-        public Guid RiderId { get; private set; }
-        public Guid MotorcycleId { get; private set; }
-        public DateTime StartDateUtc { get; private set; }        // start day (first day after creation)
-        public DateTime PlannedEndDateUtc { get; private set; }  // planned end
-        public DateTime? EndDateUtc { get; private set; }        // actual return
+        public string RiderId { get; private set; }
+        public string MotorcycleId { get; private set; }
+        public DateTime StartDateUtc { get; private set; }        
+        public DateTime PlannedEndDateUtc { get; private set; } 
+        public DateTime? EndDateUtc { get; private set; }        
         public PlanType PlanType { get; private set; }
         public decimal DailyRate { get; private set; }
         public decimal TotalAmount { get; private set; }
         public RentalStatus Status { get; private set; }
         public DateTime CreatedAtUtc { get; private set; }
 
+         public Motorcycle Motorcycle { get; private set; } = default!;
+    public Rider Rider { get; private set; } = default!;
         protected Rental() { }
 
-        private Rental(Guid id, Guid riderId, Guid motorcycleId, DateTime startDateUtc, DateTime plannedEndDateUtc, PlanType planType, decimal dailyRate)
+        private Rental(Guid id, string riderId, string motorcycleId, DateTime startDateUtc, DateTime plannedEndDateUtc, PlanType planType, decimal dailyRate)
         {
             Id = id;
             RiderId = riderId;
@@ -37,7 +39,7 @@ namespace Mottu.RentalApp.Domain.Entities
             TotalAmount = CalculatePlannedTotal();
         }
 
-        public static Rental Create(Guid id, Guid riderId, Guid motorcycleId, DateTime startDateUtc, DateTime plannedEndDateUtc, PlanType planType, decimal dailyRate)
+        public static Rental Create(Guid id, string riderId, string motorcycleId, DateTime startDateUtc, DateTime plannedEndDateUtc, PlanType planType, decimal dailyRate)
         {
             if (startDateUtc.Date < DateTime.UtcNow.Date)
                 throw new ArgumentException("Start date cannot be in the past.", nameof(startDateUtc));
@@ -46,7 +48,7 @@ namespace Mottu.RentalApp.Domain.Entities
             if (dailyRate <= 0)
                 throw new ArgumentException("Daily rate must be greater than zero.", nameof(dailyRate));
 
-            return new Rental(id, riderId, motorcycleId, startDateUtc.Date, plannedEndDateUtc.Date, planType, dailyRate);
+            return new Rental(id, riderId, motorcycleId, DateTime.SpecifyKind(startDateUtc.Date,DateTimeKind.Utc), DateTime.SpecifyKind(plannedEndDateUtc.Date,DateTimeKind.Utc), planType, dailyRate);
         }
 
         private decimal CalculatePlannedTotal()

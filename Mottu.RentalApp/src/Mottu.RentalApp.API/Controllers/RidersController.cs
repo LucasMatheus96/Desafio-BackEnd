@@ -23,8 +23,8 @@ namespace Mottu.RentalApp.API.Controllers
         /// Cadastra um novo entregador (Rider)
         /// </summary>
         [HttpPost]
-        [ProducesResponseType(typeof(RiderResponse), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody] CreateRiderRequest request)
         {
             try

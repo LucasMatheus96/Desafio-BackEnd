@@ -39,9 +39,9 @@ namespace Mottu.RentalApp.Application.Services
                 throw new InvalidOperationException("CNPJ already registered.");
 
             if (await _riderRepository.GetByCnhNumberAsync(createRiderRequest.CnhNumber) != null)
-                throw new InvalidOperationException("CNH number already registered.");
+                throw new InvalidOperationException("CNH number already registered.");           
 
-            var rider = Rider.Create(id, createRiderRequest.Name, cnpjVo, createRiderRequest.BirthDate, createRiderRequest.CnhNumber, createRiderRequest.CnhType);
+            var rider = Rider.Create(id, createRiderRequest.Identifier, createRiderRequest.Name, cnpjVo, createRiderRequest.BirthDate, createRiderRequest.CnhNumber, createRiderRequest.CnhType);
             await _riderRepository.AddAsync(rider);
 
             return _mapper.Map<RiderResponse>(rider) ;

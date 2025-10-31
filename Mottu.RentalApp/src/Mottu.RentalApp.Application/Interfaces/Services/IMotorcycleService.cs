@@ -12,9 +12,9 @@ namespace Mottu.RentalApp.Application.Interfaces.Services
     {
         Task<MotorcycleResponse> CreateAsync(CreateMotorcycleRequest request);
         Task<IEnumerable<MotorcycleResponse>> GetAllAsync(string? plate);
-        Task<MotorcycleResponse?> GetByIdAsync(Guid id);
-        Task<UpdatePlateMotorcycleResponse> UpdatePlateAsync(Guid id , UpdateMotorcyclePlateRequest updateMotorcyclePlateRequest);
-        Task DeleteAsync(Guid id);
+        Task<MotorcycleResponse?> GetByIdAsync(string motorcycleIdentifier);
+        Task<UpdatePlateMotorcycleResponse> UpdatePlateAsync(string motorcycleIdentifier, UpdateMotorcyclePlateRequest updateMotorcyclePlateRequest);
+        Task DeleteAsync(string motorcycleIdentifier);
 
     }
 }

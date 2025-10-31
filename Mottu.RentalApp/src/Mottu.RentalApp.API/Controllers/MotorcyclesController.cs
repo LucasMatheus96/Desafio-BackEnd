@@ -70,11 +70,11 @@ namespace Mottu.RentalApp.API.Controllers
         }
 
         [HttpPut("{id:guid}/plate")]
-        public async Task<IActionResult> UpdatePlate(Guid id, [FromBody] UpdateMotorcyclePlateRequest request)
+        public async Task<IActionResult> UpdatePlate(string motorcycleIdentifier, [FromBody] UpdateMotorcyclePlateRequest request)
         {
             try
             {
-                 var result =  await _motorcycleService.UpdatePlateAsync( id, request);
+                 var result =  await _motorcycleService.UpdatePlateAsync(motorcycleIdentifier, request);
                 return Ok(result); 
             }
             catch
@@ -88,11 +88,11 @@ namespace Mottu.RentalApp.API.Controllers
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(string motorcycleIdentifier)
         {
             try
             {
-                await _motorcycleService.DeleteAsync(id);
+                await _motorcycleService.DeleteAsync(motorcycleIdentifier);
                 return Ok();
             }
             catch

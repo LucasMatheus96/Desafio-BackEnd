@@ -29,19 +29,18 @@ namespace Mottu.RentalApp.Application.Services
 
         public async Task<RentalResponse> CreateRentalAsync(CreateRentalRequest createRentalRequest)
         {
-            var rider = await _riderRepository.GetByIdAsync(createRentalRequest.RiderId) ?? throw new KeyNotFoundException("Rider not found.");
+            var id = Guid.NewGuid();
+
+            var rider = await _riderRepository.GetByNameIdAsync(createRentalRequest.RiderId) ?? throw new KeyNotFoundException("Rider not found.");
             if (!rider.HasCategoryA())
                 throw new InvalidOperationException("Rider must have CNH category A to rent a motorcycle.");
 
             if (await _rentalRepository.MotorcycleHasActiveRentalAsync(createRentalRequest.MotorcycleId))
                 throw new InvalidOperationException("Motorcycle already has an active rental.");
 
-            decimal dailyRate = _calculator.GetDailyRate(createRentalRequest.PlanType);
+            decimal dailyRate = _calculator.GetDailyRate(createRentalRequest.PlanType);           
 
-            // start date validation: must be the first day after creation (as per spec)
-            // here we assume startDate param is already validated by controller or higher layer
-
-            var rental = Rental.Create(createRentalRequest.Id, createRentalRequest.RiderId, createRentalRequest.MotorcycleId, createRentalRequest.StartDate, createRentalRequest.PlannedEndDate, createRentalRequest.PlanType, dailyRate);
+            var rental = Rental.Create(id, createRentalRequest.RiderId, createRentalRequest.MotorcycleId, createRentalRequest.StartDate, createRentalRequest.PlannedEndDate, createRentalRequest.PlanType, dailyRate);
             await _rentalRepository.AddAsync(rental);
 
             return _mapper.Map<RentalResponse>(rental);

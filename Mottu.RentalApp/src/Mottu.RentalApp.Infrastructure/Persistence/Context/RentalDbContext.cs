@@ -11,30 +11,32 @@ namespace Mottu.RentalApp.Infrastructure.Persistence.Context
         public DbSet<Motorcycle> Motorcycles { get; set; } = default!;
         public DbSet<Rider> Riders { get; set; } = default!;
         public DbSet<Rental> Rentals { get; set; } = default!;
-        public DbSet<MotorcycleNotification> MotorcycleNotifications { get; set; }
+        public DbSet<MotorcycleNotification> MotorcycleNotifications { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             // fluent mappings inline for brevity; move to separate configuration classes if you prefer
-
             modelBuilder.Entity<Motorcycle>(b =>
             {
                 b.ToTable("motorcycles");
                 b.HasKey(x => x.Id);
+
+                b.HasAlternateKey(x => x.Identifier); // 🔹 chave alternativa
+                b.Property(x => x.Identifier).IsRequired().HasMaxLength(64);
                 b.Property(x => x.Model).IsRequired().HasMaxLength(200);
                 b.Property(x => x.Plate).IsRequired().HasMaxLength(16);
                 b.HasIndex(x => x.Plate).IsUnique();
                 b.Property(x => x.Year).IsRequired();
-                b.Property(x => x.IsRemoved).IsRequired();
                 b.Property(x => x.CreatedAtUtc).IsRequired();
-                b.Property(x => x.Identifier).IsRequired();
             });
 
             modelBuilder.Entity<Rider>(b =>
             {
                 b.ToTable("riders");
                 b.HasKey(x => x.Id);
+                b.HasAlternateKey(x => x.Identifier); // 🔹 chave alternativa
+                b.Property(x => x.Identifier).IsRequired().HasMaxLength(64);
                 b.Property(x => x.Name).IsRequired().HasMaxLength(200);
                 b.Property(x => x.Cnpj).IsRequired().HasMaxLength(32);
                 b.HasIndex(x => x.Cnpj).IsUnique();
@@ -48,6 +50,9 @@ namespace Mottu.RentalApp.Infrastructure.Persistence.Context
             {
                 b.ToTable("rentals");
                 b.HasKey(x => x.Id);
+
+                b.Property(x => x.RiderId).IsRequired().HasMaxLength(64);
+                b.Property(x => x.MotorcycleId).IsRequired().HasMaxLength(64);
                 b.Property(x => x.StartDateUtc).IsRequired();
                 b.Property(x => x.PlannedEndDateUtc).IsRequired();
                 b.Property(x => x.EndDateUtc);
@@ -57,10 +62,19 @@ namespace Mottu.RentalApp.Infrastructure.Persistence.Context
                 b.Property(x => x.Status).IsRequired();
                 b.Property(x => x.CreatedAtUtc).IsRequired();
 
-                b.HasOne<Motorcycle>().WithMany().HasForeignKey("MotorcycleId").OnDelete(DeleteBehavior.Restrict);
-                b.HasOne<Rider>().WithMany().HasForeignKey("RiderId").OnDelete(DeleteBehavior.Restrict);
+                // 🔹 FK para Motorcycle.Identifier (string)
+                b.HasOne(x => x.Motorcycle)
+                    .WithMany()
+                    .HasPrincipalKey(x => x.Identifier) 
+                    .HasForeignKey(x => x.MotorcycleId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
-                b.HasIndex("MotorcycleId");
+                // 🔹 FK para Rider.Identifier (string)
+                b.HasOne(x => x.Rider)
+                    .WithMany()
+                    .HasPrincipalKey(x => x.Identifier)
+                    .HasForeignKey(x => x.RiderId)                    
+                    .OnDelete(DeleteBehavior.Restrict);
             });
         }
     }

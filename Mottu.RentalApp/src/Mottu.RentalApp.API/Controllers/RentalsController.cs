@@ -24,13 +24,14 @@ namespace Mottu.RentalApp.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRental([FromBody] CreateRentalRequest request)
         {
+
             if (request == null)
                 return BadRequest("Invalid request.");
 
             try
             {
                 var rental = await _rentalService.CreateRentalAsync(request);
-                return CreatedAtAction(nameof(GetRentalById), new { id = rental.Id }, rental);
+                return StatusCode(201);
             }
             catch (KeyNotFoundException ex)
             {

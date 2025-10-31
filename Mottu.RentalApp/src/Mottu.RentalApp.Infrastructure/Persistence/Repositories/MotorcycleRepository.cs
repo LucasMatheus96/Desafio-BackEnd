@@ -24,9 +24,9 @@ namespace Mottu.RentalApp.Infrastructure.Persistence.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task<Motorcycle?> GetByIdAsync(Guid id)
+        public async Task<Motorcycle?> GetByIdAsync(string motorcycleIdentifier)
         {
-            return await _db.Motorcycles.AsNoTracking().FirstOrDefaultAsync(m => m.Id == id && !m.IsRemoved);
+            return await _db.Motorcycles.AsNoTracking().FirstOrDefaultAsync(m => m.Identifier == motorcycleIdentifier && !m.IsRemoved);
         }
 
         public async Task<Motorcycle?> GetByPlateAsync(string plate)
@@ -59,7 +59,7 @@ namespace Mottu.RentalApp.Infrastructure.Persistence.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task<bool> HasActiveRentalsAsync(Guid motorcycleId)
+        public async Task<bool> HasActiveRentalsAsync(string motorcycleId)
         {
             return await _db.Rentals.AnyAsync(r => r.MotorcycleId == motorcycleId && r.Status == Domain.Enums.RentalStatus.Active);
         }

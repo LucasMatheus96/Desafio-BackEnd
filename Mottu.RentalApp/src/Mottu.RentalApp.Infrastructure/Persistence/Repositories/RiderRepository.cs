@@ -39,6 +39,12 @@ namespace Mottu.RentalApp.Infrastructure.Persistence.Repositories
             return await _db.Riders.AsNoTracking().FirstOrDefaultAsync(r => r.CnhNumber == normalized);
         }
 
+        public async Task<Rider?> GetByNameIdAsync(string nameId)
+        {
+            var normalized = nameId?.Trim();
+            return await _db.Riders.AsNoTracking().FirstOrDefaultAsync(r => r.Identifier == normalized);
+        }
+
         public async Task UpdateAsync(Rider rider)
         {
            _db.Riders.Update(rider);

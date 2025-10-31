@@ -13,6 +13,8 @@ namespace Mottu.RentalApp.Application.Interfaces.Repositories
         Task<Rider?> GetByIdAsync(Guid id);
         Task<Rider?> GetByCnpjAsync(string cnpj);
         Task<Rider?> GetByCnhNumberAsync(string cnhNumber);
+
+        Task<Rider?> GetByNameIdAsync(string nameId);
         Task UpdateAsync(Rider rider);
     }
 }

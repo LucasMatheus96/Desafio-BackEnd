@@ -19,6 +19,7 @@ namespace Mottu.RentalApp.Infrastructure.Persistence.Repositories
         public async Task AddAsync(Rental rental)
         {
             await _db.Rentals.AddAsync(rental);
+            await _db.SaveChangesAsync();
         }
 
         public async Task<Rental?> GetByIdAsync(Guid id)
@@ -26,9 +27,9 @@ namespace Mottu.RentalApp.Infrastructure.Persistence.Repositories
             return await _db.Rentals.FirstOrDefaultAsync(r => r.Id == id);
         }
 
-        public async Task<bool> MotorcycleHasActiveRentalAsync(Guid motorcycleId)
+        public async Task<bool> MotorcycleHasActiveRentalAsync(string motorcycleIdentifier)
         {
-            return await _db.Rentals.AnyAsync(r => r.MotorcycleId == motorcycleId && r.Status == Domain.Enums.RentalStatus.Active);
+            return await _db.Rentals.AnyAsync(r => r.MotorcycleId == motorcycleIdentifier && r.Status == Domain.Enums.RentalStatus.Active);
         }
 
         public Task UpdateAsync(Rental rental)

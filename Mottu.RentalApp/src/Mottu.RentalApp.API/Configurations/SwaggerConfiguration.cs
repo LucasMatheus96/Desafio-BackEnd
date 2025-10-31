@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Mottu.RentalApp.Domain.Enums;
 using System.Reflection;
 
 namespace Mottu.RentalApp.API.Configurations
@@ -11,11 +13,20 @@ namespace Mottu.RentalApp.API.Configurations
         {
             services.AddSwaggerGen(c =>
             {
-                
+
+                c.UseAllOfToExtendReferenceSchemas();
+                c.MapType<CnhType>(() => new Microsoft.OpenApi.Models.OpenApiSchema
+                {
+                    Type = "string",
+                    Enum = Enum.GetNames(typeof(CnhType))
+                                 .Select(n => new Microsoft.OpenApi.Any.OpenApiString(n))
+                                 .Cast<Microsoft.OpenApi.Any.IOpenApiAny>()
+                                 .ToList()
+                });
                 c.OrderActionsBy(apiDesc =>
                 {
                     // Define a ordem desejada das controllers
-                   var order = new Dictionary<string, int>
+                    var order = new Dictionary<string, int>
                      {
                          { "Motorcycles", 1 },
                          { "Riders", 2 },

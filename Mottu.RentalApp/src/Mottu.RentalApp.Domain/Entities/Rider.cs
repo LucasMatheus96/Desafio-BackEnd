@@ -11,6 +11,8 @@ namespace Mottu.RentalApp.Domain.Entities
     public class Rider
     {
         public Guid Id { get; private set; }
+
+        public string Identifier { get; private set; } = default!;
         public string Name { get; private set; } = default!;
         public string Cnpj { get; private set; } = default!;
         public DateTime BirthDate { get; private set; } 
@@ -20,9 +22,10 @@ namespace Mottu.RentalApp.Domain.Entities
         public DateTime CreatedAtUtc { get; private set; } = DateTime.UtcNow;
 
         protected Rider() { }
-        private Rider(Guid id, string name, Cnpj cnpj, DateTime birthDate, string cnhNumber, CnhType cnhType)
+        private Rider(Guid id, string identifier, string name, Cnpj cnpj, DateTime birthDate, string cnhNumber, CnhType cnhType)
         {
             Id = id;
+            Identifier = identifier;
             Name = name;
             Cnpj = cnpj.Value;
             BirthDate = birthDate;
@@ -31,7 +34,7 @@ namespace Mottu.RentalApp.Domain.Entities
             CreatedAtUtc = DateTime.UtcNow;
         }
 
-        public static Rider Create(Guid id, string name, Cnpj cnpj, DateTime birthDate , string cnhNumber, CnhType cnhType)
+        public static Rider Create(Guid id, string identifier, string name, Cnpj cnpj, DateTime birthDate , string cnhNumber, CnhType cnhType)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Name is required.", nameof(name));
@@ -40,7 +43,7 @@ namespace Mottu.RentalApp.Domain.Entities
             if (string.IsNullOrWhiteSpace(cnhNumber))
                 throw new ArgumentException("CNH number is required.", nameof(cnhNumber));
 
-            return new Rider(id, name.Trim(), cnpj, DateTime.SpecifyKind(birthDate.Date, DateTimeKind.Utc) , cnhNumber.Trim(), cnhType);
+            return new Rider(id,  identifier, name.Trim(), cnpj, DateTime.SpecifyKind(birthDate.Date, DateTimeKind.Utc) , cnhNumber.Trim(), cnhType);
         }
 
         public void UpdateCnhImage(string imageUrl)

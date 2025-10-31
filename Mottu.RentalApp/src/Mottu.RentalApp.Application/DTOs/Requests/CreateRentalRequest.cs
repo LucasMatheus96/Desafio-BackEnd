@@ -8,23 +8,26 @@ using System.Threading.Tasks;
 
 namespace Mottu.RentalApp.Application.DTOs.Requests
 {
-        public class CreateRentalRequest
-        {
-            public Guid Id { get; init; } = Guid.NewGuid();
+    public class CreateRentalRequest
+    {
 
-            [JsonPropertyName("rider_id")]
-            public Guid RiderId { get; init; }
 
-            [JsonPropertyName("motorcycle_id")]
-            public Guid MotorcycleId { get; init; }
+        [JsonPropertyName("entregador_id")]
+        public string RiderId { get; init; } = default!;
 
-            [JsonPropertyName("start_date")]
-            public DateTime StartDate { get; init; }
+        [JsonPropertyName("moto_id")]
+        public string MotorcycleId { get; init; } = default!;
 
-            [JsonPropertyName("planned_end_date")]
-            public DateTime PlannedEndDate { get; init; }
+        [JsonPropertyName("data_inicio")]
+        public DateTime StartDate { get; init; }
 
-            [JsonPropertyName("plan_type")]
-            public PlanType PlanType { get; init; }
-        }    
+        [JsonPropertyName("data_termino")]
+        public DateTime PlannedEndDate { get; init; }
+
+        [JsonPropertyName("data_previsao_termino")]
+        public DateTime PlannedPreviousDate { get; init; }
+
+        [JsonPropertyName("plano")]
+        public PlanType PlanType { get; init; }
+    }
 }

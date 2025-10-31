@@ -8,10 +8,10 @@ namespace Mottu.RentalApp.Domain.Enums
 {
     public enum PlanType
     {
-        D7,
-        D15,
-        D30,
-        D45,
-        D50
+        D7 = 7,
+        D15 = 15,
+        D30 = 30,
+        D45 = 45,
+        D50 = 50 
     }
 }

@@ -54,9 +54,9 @@ namespace Mottu.RentalApp.Application.Services
             return _mapper.Map<IEnumerable<MotorcycleResponse>>(motorcycles);
         }
 
-        public async Task<MotorcycleResponse?> GetByIdAsync(Guid id)
+        public async Task<MotorcycleResponse?> GetByIdAsync(string motorcycleIdentifier)
         {
-            var motocycle = await _motorcycleRepository.GetByIdAsync(id);
+            var motocycle = await _motorcycleRepository.GetByIdAsync(motorcycleIdentifier);
             if (motocycle == null)
                 return null;
            
@@ -65,9 +65,9 @@ namespace Mottu.RentalApp.Application.Services
 
 
 
-        public async Task<UpdatePlateMotorcycleResponse> UpdatePlateAsync(Guid id ,UpdateMotorcyclePlateRequest updateMotorcyclePlateRequest)
+        public async Task<UpdatePlateMotorcycleResponse> UpdatePlateAsync(string motorcycleIdentifier, UpdateMotorcyclePlateRequest updateMotorcyclePlateRequest)
         {
-            var motorcycle = await _motorcycleRepository.GetByIdAsync(id)
+            var motorcycle = await _motorcycleRepository.GetByIdAsync(motorcycleIdentifier)
                 ?? throw new KeyNotFoundException("Motorcycle not found.");
 
             var licensePlate = LicensePlate.Create(updateMotorcyclePlateRequest.Plate);
@@ -82,12 +82,12 @@ namespace Mottu.RentalApp.Application.Services
             return new UpdatePlateMotorcycleResponse { Message = "Placa modificada com sucesso" };
         }
 
-        public async Task DeleteAsync(Guid motorcycleId)
+        public async Task DeleteAsync(string motorcycleIdentifier)
         {
-            var motorcycle = await _motorcycleRepository.GetByIdAsync(motorcycleId)
+            var motorcycle = await _motorcycleRepository.GetByIdAsync(motorcycleIdentifier)
                 ?? throw new KeyNotFoundException("Motorcycle not found.");
 
-            if (await _motorcycleRepository.HasActiveRentalsAsync(motorcycleId))
+            if (await _motorcycleRepository.HasActiveRentalsAsync(motorcycleIdentifier))
                 throw new InvalidOperationException("Motorcycle has active rentals and cannot be removed.");
 
             motorcycle.Remove();
