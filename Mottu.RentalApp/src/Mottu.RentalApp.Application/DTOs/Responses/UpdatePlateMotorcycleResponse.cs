@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Mottu.RentalApp.Application.DTOs.Responses
 {
-    public class ErrorResponse
+    public class UpdatePlateMotorcycleResponse
     {
-        [JsonPropertyName("Mensagem")]
-        public string ErrorMessage { get; set; } = default!;
-
+        [JsonPropertyName("mensagem")]
+        public string Message { get; init; } = default!;
     }
 }

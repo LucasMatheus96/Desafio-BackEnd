@@ -36,12 +36,12 @@ namespace Mottu.RentalApp.Application.Services
             if (await _motorcycleRepository.GetByPlateAsync(licensePlate.Value) != null)
                 throw new InvalidOperationException("Plate already exists.");
 
-            var motorcycle = Motorcycle.Create(id, createMotorcycleRequest.Year, createMotorcycleRequest.Model, licensePlate);
+            var motorcycle = Motorcycle.Create(id,createMotorcycleRequest.Identifier, createMotorcycleRequest.Year, createMotorcycleRequest.Model, licensePlate);
 
             await _motorcycleRepository.AddAsync(motorcycle);
 
           
-            var @event = new MotorcycleRegisteredDomainEvent(motorcycle.Id, motorcycle.Year, motorcycle.Model, LicensePlate.Create(motorcycle.Plate));
+            var @event = new MotorcycleRegisteredDomainEvent(motorcycle.Id,motorcycle.Identifier, motorcycle.Year, motorcycle.Model, LicensePlate.Create(motorcycle.Plate));
             await _eventPublisher.PublishAsync(@event, "motorcycle-registered");
 
             return _mapper.Map<MotorcycleResponse>(motorcycle);            
@@ -65,9 +65,9 @@ namespace Mottu.RentalApp.Application.Services
 
 
 
-        public async Task UpdatePlateAsync(UpdateMotorcyclePlateRequest updateMotorcyclePlateRequest)
+        public async Task<UpdatePlateMotorcycleResponse> UpdatePlateAsync(Guid id ,UpdateMotorcyclePlateRequest updateMotorcyclePlateRequest)
         {
-            var motorcycle = await _motorcycleRepository.GetByIdAsync(updateMotorcyclePlateRequest.MotorcycleId)
+            var motorcycle = await _motorcycleRepository.GetByIdAsync(id)
                 ?? throw new KeyNotFoundException("Motorcycle not found.");
 
             var licensePlate = LicensePlate.Create(updateMotorcyclePlateRequest.Plate);
@@ -78,6 +78,8 @@ namespace Mottu.RentalApp.Application.Services
 
             motorcycle.UpdatePlate(licensePlate);
             await _motorcycleRepository.UpdateAsync(motorcycle);
+
+            return new UpdatePlateMotorcycleResponse { Message = "Placa modificada com sucesso" };
         }
 
         public async Task DeleteAsync(Guid motorcycleId)

@@ -13,7 +13,7 @@ namespace Mottu.RentalApp.Application.Interfaces.Repositories
         Task<Motorcycle?> GetByIdAsync(Guid id);
         Task<Motorcycle?> GetByPlateAsync(string plate);
         Task<IEnumerable<Motorcycle>> ListAsync(string? plateFilter = null);
-        Task UpdateAsync(Motorcycle motorcycle);
+        Task  UpdateAsync(Motorcycle motorcycle);
         Task DeleteAsync(Motorcycle motorcycle);
         Task<bool> HasActiveRentalsAsync(Guid motorcycleId);
     }

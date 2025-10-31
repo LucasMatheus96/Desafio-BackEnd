@@ -11,6 +11,7 @@ namespace Mottu.RentalApp.API.Configurations
         {
             services.AddSwaggerGen(c =>
             {
+                
                 c.OrderActionsBy(apiDesc =>
                 {
                     // Define a ordem desejada das controllers
@@ -41,6 +42,8 @@ namespace Mottu.RentalApp.API.Configurations
                         Name = "MIT License"
                     }
                 });
+
+                c.EnableAnnotations();
 
                 // Inclui comentários XML (resumos dos métodos)
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

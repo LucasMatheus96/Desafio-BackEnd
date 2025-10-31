@@ -28,6 +28,7 @@ namespace Mottu.RentalApp.Infrastructure.Persistence.Context
                 b.Property(x => x.Year).IsRequired();
                 b.Property(x => x.IsRemoved).IsRequired();
                 b.Property(x => x.CreatedAtUtc).IsRequired();
+                b.Property(x => x.Identifier).IsRequired();
             });
 
             modelBuilder.Entity<Rider>(b =>

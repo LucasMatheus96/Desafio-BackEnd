@@ -19,7 +19,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddDbContext<RentalDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
+                      b => b.MigrationsAssembly("Mottu.RentalApp.Infrastructure")));
 
 
 builder.Services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();

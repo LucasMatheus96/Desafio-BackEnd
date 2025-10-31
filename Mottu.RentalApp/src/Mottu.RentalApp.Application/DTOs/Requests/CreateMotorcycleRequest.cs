@@ -1,18 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Swashbuckle.AspNetCore.Annotations;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
 
 namespace Mottu.RentalApp.Application.DTOs.Requests
 {
     public class CreateMotorcycleRequest
     {
-        public Guid? Id { get; set; }
+      
+        [JsonPropertyName("identificador")]
+        public string Identifier { get; set; } = default!;
 
-        public string identificador { get; set; }
+        [JsonPropertyName("ano")]
         public int Year { get; set; }
+     
+        [JsonPropertyName("modelo")]
         public string Model { get; set; } = default!;
+
+        [JsonPropertyName("placa")]
         public string Plate { get; set; } = default!;
 
 

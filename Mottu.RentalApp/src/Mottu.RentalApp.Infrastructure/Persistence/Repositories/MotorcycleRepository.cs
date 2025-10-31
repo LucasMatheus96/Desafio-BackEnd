@@ -46,18 +46,17 @@ namespace Mottu.RentalApp.Infrastructure.Persistence.Repositories
             return await query.ToListAsync();
         }
 
-        public Task UpdateAsync(Motorcycle motorcycle)
+        public async Task UpdateAsync(Motorcycle motorcycle)
         {
             _db.Motorcycles.Update(motorcycle);
-            return Task.CompletedTask;
+            await _db.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(Motorcycle motorcycle)
+        public async Task DeleteAsync(Motorcycle motorcycle)
         {
-            // Soft-delete pattern: mark IsRemoved and save later
             motorcycle.Remove();
             _db.Motorcycles.Update(motorcycle);
-            return Task.CompletedTask;
+            await _db.SaveChangesAsync();
         }
 
         public async Task<bool> HasActiveRentalsAsync(Guid motorcycleId)
