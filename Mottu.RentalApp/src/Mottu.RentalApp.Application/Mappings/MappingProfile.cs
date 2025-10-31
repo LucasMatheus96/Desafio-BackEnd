@@ -16,6 +16,9 @@ namespace Mottu.RentalApp.Application.Mappings
         {
             CreateMap<Motorcycle, MotorcycleResponse>();
             CreateMap<CreateMotorcycleRequest, Motorcycle>();
+            CreateMap<Rider, RiderResponse>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id)); ;
             
         }
     }

@@ -27,13 +27,23 @@ namespace Mottu.RentalApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody] CreateRiderRequest request)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-            var result = await _riderService.CreateAsync(request);
+                var result = await _riderService.CreateAsync(request);
 
-            // Retorna 201 Created com o recurso no corpo e a rota de obtenção
-            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+                return StatusCode(201);
+            }
+            catch
+            {
+                return StatusCode(400, new ErrorResponse
+                {
+                    ErrorMessage = "Dados inválidos",
+                });
+            }
+           
         }
 
         /// <summary>
@@ -45,22 +55,23 @@ namespace Mottu.RentalApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UploadCnh(Guid riderId, [FromBody] UploadCnhRequest request)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-            var response = await _riderService.UploadCnhImageAsync(riderId, request);
-            return Ok(response);
-        }
+                var response = await _riderService.UploadCnhImageAsync(riderId, request);
+                return Ok(response);
+            }
+            catch
+            {
+                return StatusCode(400, new ErrorResponse
+                {
+                    ErrorMessage = "Dados inválidos",
+                });
+            }
+            
+        }       
 
-        /// <summary>
-        /// Busca um Rider por ID (mockado apenas para retorno do CreatedAtAction)
-        /// </summary>
-        [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetById(Guid id)
-        {
-            // 🔸 Opcional: se você tiver GetByIdAsync futuramente, implemente aqui
-            // Por enquanto, apenas simula um retorno
-            return Ok(new { Message = "Endpoint de busca de Rider ainda não implementado.", Id = id });
-        }
     }
 }

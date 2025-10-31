@@ -67,7 +67,7 @@ namespace Mottu.RentalApp.Application.Services
 
             using var stream = new MemoryStream(imageBytes);
 
-            var url = await _fileStorageService.UploadCnhImageAsync(riderId.ToString(), stream, "image/jpeg");
+            var url = await _fileStorageService.UploadCnhImageAsync(riderId.ToString(), stream, "image/png");
             rider.UpdateCnhImage(url);
             await _riderRepository.UpdateAsync(rider);
 

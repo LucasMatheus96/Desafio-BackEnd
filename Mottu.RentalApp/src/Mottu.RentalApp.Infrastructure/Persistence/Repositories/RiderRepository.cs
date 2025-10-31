@@ -19,6 +19,7 @@ namespace Mottu.RentalApp.Infrastructure.Persistence.Repositories
         public async Task AddAsync(Rider rider)
         {
             await _db.Riders.AddAsync(rider);
+            await _db.SaveChangesAsync();
         }
 
         public async Task<Rider?> GetByIdAsync(Guid id)
@@ -38,10 +39,11 @@ namespace Mottu.RentalApp.Infrastructure.Persistence.Repositories
             return await _db.Riders.AsNoTracking().FirstOrDefaultAsync(r => r.CnhNumber == normalized);
         }
 
-        public Task UpdateAsync(Rider rider)
+        public async Task UpdateAsync(Rider rider)
         {
-            _db.Riders.Update(rider);
-            return Task.CompletedTask;
+           _db.Riders.Update(rider);
+          await  _db.SaveChangesAsync();
+           
         }
     }
 }
