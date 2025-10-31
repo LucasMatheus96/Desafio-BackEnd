@@ -14,5 +14,7 @@ namespace Mottu.RentalApp.Application.Interfaces.Services
         Task<RentalResponse> CreateRentalAsync(CreateRentalRequest request);
     
         Task<Rental> ReturnRentalAsync(Guid rentalId, DateTime returnDate);
+
+        Task<RentalResponse?> GetByIdAsync(Guid id);
     }
 }

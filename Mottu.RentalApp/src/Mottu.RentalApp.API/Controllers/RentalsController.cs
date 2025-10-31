@@ -18,9 +18,7 @@ namespace Mottu.RentalApp.API.Controllers
             _rentalService = rentalService;
         }
 
-        /// <summary>
-        /// Cria um novo aluguel de motocicleta.
-        /// </summary>
+      
         [HttpPost]
         public async Task<IActionResult> CreateRental([FromBody] CreateRentalRequest request)
         {
@@ -43,21 +41,19 @@ namespace Mottu.RentalApp.API.Controllers
             }
         }
 
-        /// <summary>
-        /// Retorna um aluguel pelo ID.
-        /// (Opcional — depende se você tiver o método no serviço)
-        /// </summary>
+      
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetRentalById(Guid id)
-        {
-            // Opcional: se você tiver o método GetByIdAsync no RentalService
-            return Ok(new { Message = $"Rental with ID {id} fetched successfully (implement in service if needed)." });
+        public async Task<IActionResult> GetRentalById(Guid id)        {
+
+            var rental = await _rentalService.GetByIdAsync(id);
+            if (rental is null)
+                return NotFound($"Nenhuma locação encontrada com o ID {id}.");
+
+            return Ok(rental);
         }
 
-        /// <summary>
-        /// Finaliza um aluguel e calcula o valor final.
-        /// </summary>
-        [HttpPost("{rentalId:guid}/return")]
+     
+        [HttpPut("{rentalId:guid}/devolucao")]
         public async Task<IActionResult> ReturnRental(Guid rentalId, [FromBody] CreateRentalRequest request)
         {
             if (request == null)

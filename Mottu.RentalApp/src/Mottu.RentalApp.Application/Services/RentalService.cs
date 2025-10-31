@@ -56,5 +56,11 @@ namespace Mottu.RentalApp.Application.Services
             await _rentalRepository.UpdateAsync(rental);
             return rental;
         }
+
+        public async Task<RentalResponse?> GetByIdAsync(Guid id)
+        {
+            var rental = await _rentalRepository.GetByIdAsync(id);
+            return rental == null ? null : _mapper.Map<RentalResponse>(rental);
+        }
     }
 }

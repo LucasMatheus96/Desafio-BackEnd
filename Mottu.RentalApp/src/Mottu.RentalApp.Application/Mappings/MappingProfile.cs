@@ -20,9 +20,10 @@ namespace Mottu.RentalApp.Application.Mappings
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id)); ;
             CreateMap<Rental, RentalResponse>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
-               
-            
+     .ForMember(dest => dest.PlanType, opt => opt.MapFrom(src => src.PlanType.ToString()))
+     .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()));
+
+
         }
     }
 }
